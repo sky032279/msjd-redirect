@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>民盛机电 - 扫码报修</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f5f7fa;
+      text-align: center;
+    }
+    .container {
+      max-width: 400px;
+      margin: 60px auto;
+      background: #fff;
+      border-radius: 16px;
+      padding: 40px 30px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .logo {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 20px;
+    }
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #00619E;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 30px;
+    }
+    .btn {
+      display: inline-block;
+      background: #00619E;
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 24px;
+      font-size: 16px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .btn:active {
+      background: #004c7a;
+    }
+    .tip {
+      font-size: 12px;
+      color: #999;
+      margin-top: 20px;
+    }
+    .loading {
+      font-size: 14px;
+      color: #00619E;
+      margin-bottom: 20px;
+    }
+    .dot {
+      animation: blink 1.2s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img class="logo" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 72'><rect width='72' height='72' rx='14' fill='%2300619E'/><text x='36' y='48' text-anchor='middle' font-size='36' fill='white'>报</text></svg>" alt="logo">
+    <div class="title">民盛机电维修服务</div>
+    <div class="subtitle">扫码报修系统</div>
+    <div id="loading" class="loading">正在打开小程序<span class="dot">...</span></div>
+    <a id="btn" class="btn" style="display:none">点击打开报修页面</a>
+    <div class="tip">如未自动跳转，点击上方按钮</div>
+  </div>
+  <script>
+    // 获取 URL 参数 id
+    var params = new URLSearchParams(window.location.search);
+    var id = params.get("id") || "";
+
+    // 构建微信小程序跳转 URL
+    // scene 参数会被微信自动解码并传给小程序 onLoad(options)
+    var sceneStr = "id=" + encodeURIComponent(id);
+    var wechatUrl = "weixin://dl/business/?t=" + encodeURIComponent(sceneStr) + "&appid=wx8d19009241c897a8&path=pages%2FscanReport%2FscanReport";
+
+    // 直接跳转
+    window.location.href = wechatUrl;
+
+    // 如果 1.5 秒后还没跳转，显示手动按钮
+    setTimeout(function() {
+      var btn = document.getElementById("btn");
+      var loading = document.getElementById("loading");
+      if (loading) loading.style.display = "none";
+      if (btn) {
+        btn.style.display = "inline-block";
+        btn.href = wechatUrl;
+        btn.textContent = "点击打开报修页面";
+      }
+    }, 1500);
+  </script>
+</body>
+</html>
